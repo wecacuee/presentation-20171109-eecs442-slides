@@ -1,0 +1,944 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Graphical models are awesome</title>
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+		<link rel="stylesheet" href="index.css" >
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+<!-- Matjax macros-->
+\[
+\newcommand{\mlequation}[5]{
+  #1{\underbrace{\theta}_{\text{parameters}}}
+  = \arg \min_{\theta} #2{\underbrace{L}_{\text{loss}}}(
+  #3{\overbrace{Y}^{\text{labels}}}
+  , #4{\underbrace{f(X; \theta)}_{\text{estimated value}}}
+  ; #5{\overbrace{D}^{\text{data}}}
+  )
+}
+\newcommand{\colorfocus}{\color{red}}
+
+\newcommand{\linregequation}[5]{
+#1{\{a, b\}}
+=
+\arg \min_{a, b}
+#2{\sum_{(x,y) \in #5{D}}} #2{\|} #3{y} - #4{(ax + b)} #2{\|_2}
+}
+\]
+<!-- -->
+	</head>
+	<body >
+		<div class="reveal">
+			<div class="slides">
+<section>
+  <h3>Probablistic graphical models</h3>
+</section>
+<section style="font-size:70%">
+  <h5>Why we should still study Probablistic graphical models?</h5>
+  <ul>
+  <li> Combining Neural network with graphical models is the latest frontier
+    <div style="position:relative;height:300px">
+      <span class="fragment" >
+        <img class="fragment fade-out" src="media/structural-rnn.png"
+           style="position:absolute;right:0"/></span>
+      <span class="fragment">
+        <img class="fragment fade-out" src="media/gormley-thesis.png"
+             style="position:absolute;right:0"/>
+      </span>
+      <span class="fragment">
+        <img class="fragment fade-out" src="media/sifan-wang-thesis.png"
+             style="position:absolute;right:0"/>
+      </span>
+    </div>
+  </li><li class="fragment">
+      Eventually Deep neural networks and graphical models are tools for
+  solving problems. You need as many tools as possible.
+  </li>
+  </ul>
+</section>
+<section>
+  <h3>Machine learning recap</h3>
+</section>
+<section>
+  \[
+  \mlequation{\colorfocus}{}{}{}{}
+  \]
+  <br/>
+  <br/>
+  <div class="fragment regressionimg" > </div>
+  <p class="fragment" style="font-size:70%" >
+  \[
+  \linregequation{\colorfocus}{}{}{}{}
+  \]
+  <p>
+</section>
+<section>
+  \[
+  \mlequation{}{\colorfocus}{}{}{}
+  \]
+  <br/>
+  <br/>
+  <div class="regressionimg" > </div>
+  <p style="font-size:70%" >
+  \[
+  \linregequation{}{\colorfocus}{}{}{}
+  \]
+  <p>
+</section>
+<section>
+  \[
+  \mlequation{}{}{\colorfocus}{}{}
+  \]
+  <br/>
+  <br/>
+  <div class="regressionimg" > </div>
+  <p style="font-size:70%" >
+  \[
+  \linregequation{}{}{\colorfocus}{}{}
+  \]
+  <p>
+</section>
+<section>
+  \[
+  \mlequation{}{}{}{}{\colorfocus}
+  \]
+  <br/>
+  <br/>
+  <div class="regressionimg" > </div>
+  <p style="font-size:70%" >
+  \[
+  \linregequation{}{}{}{}{\colorfocus}
+  \]
+  <p>
+</section>
+<section>
+  \[
+  \mlequation{}{}{}{\colorfocus}{}
+  \]
+  <br/>
+  <br/>
+  <div class="regressionimg" > </div>
+  <p style="font-size:70%" >
+  \[
+  \linregequation{}{}{}{\colorfocus}{}
+  \]
+  <p>
+</section>
+<section>
+  <p >
+  \[
+  \mlequation{}{}{}{\colorfocus}{}
+  \]
+  </p>
+  <br/>
+  <br/>
+  <p class="fragment">
+  \[
+  \color{red}{\underbrace{f}_{\text{model}}}
+  (\overbrace{X}^{\text{features}}; \theta)
+  \]
+  </p>
+</section>
+<section>
+  What are our options for models
+  <ul>
+    <li class="fragment">
+      Equation for lines<br/>
+      \( f(x; a, b) = ax + b \)
+      <span class="fragment fade-out">
+        <div class="regressionimg" ></div>
+      </span >
+    </li>
+    <li class="fragment">
+      Neural networks:<br/>
+      \( f(X; W_1, W_2) = W_2\sigma(W_1X)) \)
+      <span class="fragment fade-out">
+        <img style="background:#ffffff;position:absolute;right:0;top:20%" src="media/neural-network.png" />
+      </span>
+    </li>
+    <li class="fragment">
+      <div class="fragment highlight-red" >
+      Probablistic graphical models :<br/>
+      \( f(X; \theta) = \arg \max_{Y} P(Y, X; \theta) \)
+      </div>
+      <img style="background:#ffffff;position:absolute;right:0;top:20%" src="media/prob-graph-models.png" />
+    </li>
+  </ul>
+</section>
+<section>
+      <h4>Probablistic graphical models</h4>
+      \[ f(X; \theta) = \arg \max_{Y} P(Y, X; \theta) \]
+      <p >
+        <div style="float:right;width:80%" class="regressionimg fragment" ></div>
+        <div class="fragment" >
+        \[ f(x; a, b) = \arg \max_{y} P(y, x; a, b) \]
+        </div><div class="fragment">
+        \[ P(y, x; a, b) = \frac{1}{Z}\exp(-\| y - (ax + b) \|_2) \]
+        </div>
+      </p>
+</section>
+<section>
+  The binary segmentation problem: A more practical example
+  <div style="position:relative">
+    <img src="media/flower-fg-bg-prob.png"
+         style="width:286px;height:192px;float:left;" />
+    <svg xmlns="http://www.w3.org/2000/svg" height="90" width="181" version="1"
+         style="float:center;margin-top:50px">
+    <path d="m 117.2,23.2 -112.7,0 0,43.5 112.7,0 0,18.1 c 0,0 59.3,-39.9 59.3,-39.9 L 117.2,5 v 18.1 z"  stroke="#7aa329" stroke-width="2" fill="#9C3"/>
+    </svg>
+    <img src="media/flower-fg-bg-sol.png"
+         style="width:286px;height:192px;float:right;" />
+  </div>
+  <div style="clear: left" class="fragment" >
+  For each pixel define a binary random variable \(y_i\) that denotes whether
+  the pixel belongs to foreground or background.
+
+  \[
+  Y^* = \arg \max_{y_i \in \{0, 1\} \forall i} P(Y, X)
+  \]
+  </div>
+</section>
+<section class="fragment" style="text-align:left">
+  \[
+  Y^* = \arg \max_{y_i \in \{0, 1\} \forall i} P(Y, X)
+  \]
+  <p>
+    Look at the dimensionality of the search space
+  </p>
+  <p class="fragment">
+  If the size of the image is 100 x 100, then what is the
+  size of search space?
+  </p>
+  <p class="fragment" style="font-size:400%">
+    \( 2^{100 \times 100} \)
+  </p>
+</section>
+<section>
+  Two unanswered questions
+  <ol>
+    <li class="fragment"> What should we do about the high dimensional search space?
+    </li><li class="fragment"> 
+      What is so "graphical" about "Probablistic <i>Graphical</i> Models"?
+    </li>
+  </ol>
+</section>
+<section style="text-align:left;font-size:80%">
+  <h5>Recall some probability</h5>
+  <ul>
+    <li> Independence: Events \(y\) and \(x\) are <i>independent</i> iff
+      \[ P(y, x) = P(y)P(x) \]
+     </li><li> Conditional Probability of \(y\) given \(x\) is
+      \(
+      \begin{align}
+      P(y|x) = \frac{P(y, x)}{P(x)} &\qquad \text{ or }P(y, x) = P(y|x)P(x)
+      \end{align}
+      \)
+    </li><li> Conditional independence: <br/>
+      \(y\) and \(x\) are conditionally independent given \(z\) iff
+      \[ P(y, x|z) = P(y|z)P(x|z) \]
+    </li>
+  </ul>
+  <p class="fragment" style="font-size:50%">
+    Note that, independence is intimately linked to factorization.
+  </p>
+</section>
+<section>
+  Probablistic Graphical models (PGMs) represent
+  conditional independence relations between random variables.
+</section>
+<section>
+  <p>
+  Different types of PGMs
+  </p>
+  <ul>
+    <li> Bayes net
+    </li><li> Factor graphs
+    </li><li> Conditional Random Fields
+    </li><li class="fragment highlight-red"> Markov Random Fields
+    </li>
+  </ul>
+</section>
+<section>
+  <h5>Markov Random fields (MRF)</h5>
+  <p style="text-align:left" >
+  Define a graph \(G = (V, E)\) where \(V\) is a set of random
+  variables and \(E\) is a set of edges such that each (or set of)
+  random variable is conditionally independent of all other (or set
+  of) random variables given its neighbors.
+  </p>
+</section>
+<section style="font-size:80%">
+  Examples
+  <ul>
+    <li class="fragment">
+      Draw an MRF for two random variables (not independent).
+      <div class="fragment" style="position:absolute;right:0;" >
+        <!--div w3-include-html="media/mrf-two-rv-dep.svg" ></div-->
+        <svg class="fragment fade-out"
+             width="6em" height="2em" viewBox="0 0 1200 400"
+             xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <circle r="100" cy="200" cx="150" id="path4151"
+                  style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <circle r="100" cy="200" cx="750" id="path4151-6"
+                  style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <path id="path4206" d="m 250,200 400,0"
+                style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <foreignObject x="120" y="130" width="70" height="150">
+            <div style="fill:red;font-size:100px;color:red">\(x\)</div>
+          </foreignObject>
+          <foreignObject x="720" y="130" width="70" height="150">
+            <div style="fill:red;font-size:100px;color:red">\(y\)</div>
+          </foreignObject>
+        </svg>
+      </div>
+    </li><li class="fragment">
+      Draw an MRF for three random variables (not independent).
+      <div class="fragment" style="position:absolute;right:0;" >
+        <!--div w3-include-html="media/mrf-three-rv-dep.svg" ></div-->
+        <svg class="fragment fade-out"
+             width="6em" height="6em" viewBox="0 0 900 900"
+             xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <circle style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+                  id="path4151" cx="150" cy="150" r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6" cx="650" cy="150" r="100" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+             d="m 252.21879,144.58099 291.42854,0"
+             id="path4206"
+             inkscape:path-effect="#path-effect4208"
+             inkscape:original-d="m 252.21879,144.58099 291.42854,0"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="cc" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6-7" cx="400" cy="600" r="100" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="M 184.28571,243.00899 351.42857,511.58042"
+             id="path4253"
+             inkscape:path-effect="#path-effect4255"
+             inkscape:original-d="M 184.28571,243.00899 351.42857,511.58042"
+             inkscape:connector-curvature="0" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="M 614.28571,245.86613 461.42857,517.2947"
+             id="path4257"
+             inkscape:path-effect="#path-effect4259"
+             inkscape:original-d="M 614.28571,245.86613 461.42857,517.2947"
+             inkscape:connector-curvature="0" />
+        <foreignObject x="120" y="080" width="70" height="150">
+          <div style="fill:red;font-size:100px;color:red">\(x\)</div>
+        </foreignObject>
+        <foreignObject x="630" y="080" width="70" height="150">
+          <div style="fill:red;font-size:100px;color:red">\(y\)</div>
+        </foreignObject>
+        <foreignObject x="400" y="530" width="70" height="150">
+          <div style="fill:red;font-size:100px;color:red">\(z\)</div>
+        </foreignObject>
+        </svg>
+      </div>
+    </li><li class="fragment">
+      Draw an MRF for four random variables (not independent).
+      <div class="fragment" style="position:absolute;right:0;" >
+        <svg class="fragment fade-out"
+           xmlns:dc="http://purl.org/dc/elements/1.1/"
+           xmlns:cc="http://creativecommons.org/ns#"
+           xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:svg="http://www.w3.org/2000/svg"
+           xmlns="http://www.w3.org/2000/svg"
+           id="svg2"
+           version="1.1"
+           viewBox="0 0 800 900"
+           height="6em"
+           width="6em"
+           class="fragment fade-out">
+          <defs
+             id="defs12" />
+          <circle
+             r="100"
+             cy="150"
+             cx="150"
+             id="path4151"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <circle
+             r="100"
+             cy="150"
+             cx="650"
+             id="path4151-6"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <path
+             id="path4206"
+             d="m 252.21879,144.58099 291.42854,0"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <circle
+             r="100"
+             cy="600"
+             cx="150"
+             id="path4151-6-7"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <circle
+             r="100"
+             cy="600"
+             cx="650"
+             id="path4151-6-7-3"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <path
+             id="path4206-6"
+             d="m 250,600 300,0"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <path
+             id="path4206-6-5"
+             d="m 656.02832,257.81208 0,242.81495"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <path
+             id="path4206-6-5-3"
+             d="m 150.26019,254.89156 0,242.81495"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <path
+             id="path4206-6-5-3-5"
+             d="M 223.18058,217.32651 581.15339,530.85214"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <path
+             id="path4206-6-5-3-5-6"
+             d="M 573.92925,216.459 227.25799,536.86677"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(x\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(y\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(z\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(w\)</div>
+          </foreignObject>
+        </svg>
+      </div>
+    </li><li class="fragment">
+      Draw an MRF for three random variables that are all independent.
+      <div class="fragment" style="position:absolute;right:0;" >
+        <svg class="fragment fade-out"
+             xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:cc="http://creativecommons.org/ns#"
+             xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+             xmlns:svg="http://www.w3.org/2000/svg"
+             xmlns="http://www.w3.org/2000/svg"
+             shape-rendering="crispEdges"
+             class="fragment fade-out"
+             width="6em"
+             height="6em"
+             viewBox="0 0 800 900"
+             version="1.1"
+             id="svg2">
+          <metadata
+             id="metadata14">
+            <rdf:RDF>
+              <cc:Work
+                 rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+              </cc:Work>
+            </rdf:RDF>
+          </metadata>
+          <defs
+             id="defs12" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151"
+             cx="150"
+             cy="150"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6"
+             cx="650"
+             cy="150"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6-7"
+             cx="150"
+             cy="600"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6-7-3"
+             cx="650"
+             cy="600"
+             r="100" />
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(x\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(y\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(z\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(w\)</div>
+          </foreignObject>
+        </svg>
+      </div>
+    </li><li class="fragment">
+
+      Draw an MRF for three random variables \(x,y,z\) such that
+      \(x\) and \(y\) are conditionally independent given \(z\).
+      <div class="fragment" style="position:absolute;right:0;" >
+        <svg class="fragment fade-out"
+           xmlns:dc="http://purl.org/dc/elements/1.1/"
+           xmlns:cc="http://creativecommons.org/ns#"
+           xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:svg="http://www.w3.org/2000/svg"
+           xmlns="http://www.w3.org/2000/svg"
+           id="svg2"
+           version="1.1"
+           viewBox="0 0 900 900"
+           height="6em"
+           width="6em"
+           class="fragment fade-out">
+          <defs
+             id="defs12" />
+          <circle
+             r="100"
+             cy="150"
+             cx="150"
+             id="path4151"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <circle
+             r="100"
+             cy="150"
+             cx="650"
+             id="path4151-6"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <circle
+             r="100"
+             cy="600"
+             cx="400"
+             id="path4151-6-7"
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px" />
+          <path
+             id="path4253"
+             d="M 184.28571,243.00899 351.42857,511.58042"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <path
+             id="path4257"
+             d="M 614.28571,245.86613 461.42857,517.2947"
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(x\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(y\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="400">
+            <div
+               style="fill:red;font-size:100px;color:red">\(z\)</div>
+          </foreignObject>
+        </svg>
+
+      </div>
+    </li><li class="fragment">
+      Draw an MRF for four random variables \(w, x,y,z\) such that
+      \(x\) and \(y\) are conditionally independent given \(z\) and \(w\)
+      <br/>
+      and \(z\) and \(w\) are conditionally independent given \(x\) and \(y\)
+
+      <div class="fragment" style="position:absolute;right:0;" >
+        <svg class="fragment fade-out"
+           xmlns:dc="http://purl.org/dc/elements/1.1/"
+           xmlns:cc="http://creativecommons.org/ns#"
+           xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+           xmlns:svg="http://www.w3.org/2000/svg"
+           xmlns="http://www.w3.org/2000/svg"
+           xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+           xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+           shape-rendering="crispEdges"
+           class="fragment fade-out"
+           width="6em"
+           height="6em"
+           viewBox="0 0 800 900"
+           version="1.1"
+           id="svg2"
+           inkscape:version="0.91 r13725"
+           sodipodi:docname="mrf-four-rv-4-connected.svg">
+          <sodipodi:namedview
+             pagecolor="#000000"
+             bordercolor="#666666"
+             borderopacity="1"
+             objecttolerance="10"
+             gridtolerance="10"
+             guidetolerance="10"
+             inkscape:pageopacity="0"
+             inkscape:pageshadow="2"
+             inkscape:window-width="1855"
+             inkscape:window-height="1056"
+             id="namedview9"
+             showgrid="false"
+             inkscape:zoom="0.26222222"
+             inkscape:cx="-337.92373"
+             inkscape:cy="430.9322"
+             inkscape:window-x="65"
+             inkscape:window-y="24"
+             inkscape:window-maximized="1"
+             inkscape:current-layer="svg2" />
+          <metadata
+             id="metadata14">
+            <rdf:RDF>
+              <cc:Work
+                 rdf:about="">
+                <dc:format>image/svg+xml</dc:format>
+                <dc:type
+                   rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                <dc:title></dc:title>
+              </cc:Work>
+            </rdf:RDF>
+          </metadata>
+          <defs
+             id="defs12">
+            <inkscape:path-effect
+               effect="spiro"
+               id="path-effect4139"
+               is_visible="true" />
+            <inkscape:path-effect
+               effect="spiro"
+               id="path-effect4139-3"
+               is_visible="true" />
+            <inkscape:path-effect
+               effect="spiro"
+               id="path-effect4139-7"
+               is_visible="true" />
+            <inkscape:path-effect
+               effect="spiro"
+               id="path-effect4139-7-3"
+               is_visible="true" />
+          </defs>
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151"
+             cx="150"
+             cy="150"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6"
+             cx="650"
+             cy="150"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6-7"
+             cx="150"
+             cy="600"
+             r="100" />
+          <circle
+             style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:5px"
+             id="path4151-6-7-3"
+             cx="650"
+             cy="600"
+             r="100" />
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(x\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="080"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(w\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="120">
+            <div
+               style="fill:red;font-size:100px;color:red">\(y\)</div>
+          </foreignObject>
+          <foreignObject
+             height="150"
+             width="70"
+             y="530"
+             x="630">
+            <div
+               style="fill:red;font-size:100px;color:red">\(z\)</div>
+          </foreignObject>
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="m 240.25424,145.98305 305.08474,0"
+             id="path4137"
+             inkscape:path-effect="#path-effect4139"
+             inkscape:original-d="m 240.25424,145.98305 305.08474,0"
+             inkscape:connector-curvature="0" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="m 247.88136,594.91526 305.08474,0"
+             id="path4137-6"
+             inkscape:path-effect="#path-effect4139-3"
+             inkscape:original-d="m 247.88136,594.91526 305.08474,0"
+             inkscape:connector-curvature="0" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="m 144.91526,503.38982 0,-255.50847"
+             id="path4137-5"
+             inkscape:path-effect="#path-effect4139-7"
+             inkscape:original-d="m 144.91526,503.38982 0,-255.50847"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="cc" />
+          <path
+             style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             d="m 644.49152,501.48305 0,-255.50847"
+             id="path4137-5-5"
+             inkscape:path-effect="#path-effect4139-7-3"
+             inkscape:original-d="m 644.49152,501.48305 0,-255.50847"
+             inkscape:connector-curvature="0"
+             sodipodi:nodetypes="cc" />
+        </svg>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<section>
+  Let's make some independence assumptions
+  <div style="position:relative">
+    <img src="media/flower-fg-bg-prob.png"
+         style="width:286px;height:192px;float:left;" />
+    <svg xmlns="http://www.w3.org/2000/svg" height="90" width="181" version="1"
+         style="float:center;margin-top:50px">
+    <path d="m 117.2,23.2 -112.7,0 0,43.5 112.7,0 0,18.1 c 0,0 59.3,-39.9 59.3,-39.9 L 117.2,5 v 18.1 z"  stroke="#7aa329" stroke-width="2" fill="#9C3"/>
+    </svg>
+    <img src="media/rand-var-grid.png"
+         style="width:286px;height:192px;float:right;" />
+  </div>
+  <p style="clear: left">
+    Assume that RV \(y_1\) is independent of the rest of the graph given its neighbors \(y_2, y_3, y_4, y_5\).
+  </p>
+  <p class="fragment">
+    \[
+    P(Y, X)  = \prod_{i, j: i \ne j}P_{ij}(y_i, y_j, X) \prod_{i}P_i(y_i, X)
+    \]
+  </p>
+</section>
+<section>
+
+  <span style="font-size:50%" >The factorization</span>
+  <p >
+    \[
+    P(Y, X)  = \prod_{i, j: i \ne j}P_{ij}(y_i, y_j, X) \prod_{i}P_i(y_i, X)
+    \]
+  </p>
+
+  <span style="font-size:50%" >
+  is equivalent to the MRF:
+  </span>
+  <p>
+    <img src="media/rand-var-grid.png"
+         style="width:286px;height:192px;" />
+  </p>
+  <p class="fragment" >
+    This relationship was proved by Hammersley-Clifford in 1971
+  </p>
+  
+  <footnote style="position:absolute;bottom:0;left:0;font-size:16px">
+    Hammersley, J. M.; Clifford, P. (1971), Markov fields on finite graphs and lattices
+  </footnote>
+</section>
+
+<section style="font-size:80%;text-align:left">
+  <p>
+    Recap: A recipe for solving problems using MRFs
+  </p>
+  <ul>
+    <li class="fragment"> Model function as probability
+      \( f(X; \theta) = \arg \max_{Y} P(Y, X; \theta) \)
+    </li><li class="fragment"> Make independence assumptions
+      <img src="media/rand-var-grid.png"
+           style="width:100px;;float:right" />
+    </li><li class="fragment"> Write corresponding factorization
+    \[
+    P(Y, X)  = \prod_{i, j: i \ne j}P_{ij}(y_i, y_j, X) \prod_{i}P_i(y_i, X)
+    \]
+    </li><li class="fragment" > Solve probability maximization efficiently
+      using PGM algorithms.
+      <ol>
+        <li> Graph cuts 
+        </li><li> Gibbs sampling
+        </li><li> Belief propagation
+        </li>
+      </ol>
+    </li>
+  </ul>
+</section>
+<section style="font-size:70%">
+  Product of probabilities is same as summation of energies
+  \[ f(X; \theta) = \arg \max_{Y} P(Y, X; \theta) \]
+  \[
+  P(Y, X)  = \prod_{i, j: i \ne j}P_{ij}(y_i, y_j, X) \prod_{i}P_i(y_i, X)
+  \]
+
+  <p class="fragment">
+    Define \( E(Y, X) = -\log P(Y, X) \) or 
+  </p>
+
+  <p class="fragment">
+  \[
+  E(Y, X)  = \sum_{i, j: i \ne j}E_{ij}(y_i, y_j, X) + \sum_{i}E_i(y_i, X)
+  \]
+  \[ f(X; \theta) = \arg \min_{Y} E(Y, X; \theta) \]
+  </p>
+</section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-091.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-092.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-093.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-094.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-095.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-096.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-097.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-098.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-099.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-100.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-101.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-102.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-103.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-104.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-105.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-106.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-107.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-108.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-109.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-110.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-111.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-112.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-113.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-114.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-115.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-116.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-117.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-118.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-119.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-120.svg"></section>
+<section class="singleimg" data-background-image="media/ladicky-graphcuts-121.svg"></section>
+
+			</div>
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+            transition : "fade",
+            history : true,
+            slideNumber : true,
+            math: {
+                mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+
+            },
+				dependencies: [
+					{ src: 'reveal.js/plugin/markdown/marked.js' },
+					{ src: 'reveal.js/plugin/markdown/markdown.js' },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/math/math.js', async: true }
+                ]
+			});
+		</script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+			  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+			  crossorigin="anonymous"></script>
+
+        <script>
+          $(document).ready(function(){
+            $('.regressionimg').html("<img style='background:#ffffff' class='regimg' src='media/linear-reg.png'/>");
+          });
+        </script>
+	</body>
+</html>

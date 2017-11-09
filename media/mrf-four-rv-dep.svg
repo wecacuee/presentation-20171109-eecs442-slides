@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg2"
+   version="1.1"
+   viewBox="0 0 800 900"
+   height="900"
+   width="800"
+   class="fragment fade-out">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs12" />
+  <circle
+     r="100"
+     cy="150"
+     cx="150"
+     id="path4151"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+  <circle
+     r="100"
+     cy="150"
+     cx="650"
+     id="path4151-6"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+  <path
+     id="path4206"
+     d="m 252.21879,144.58099 291.42854,0"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <circle
+     r="100"
+     cy="600"
+     cx="150"
+     id="path4151-6-7"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+  <foreignObject
+     height="150"
+     width="70"
+     y="080"
+     x="120">
+    <div
+       style="fill:red;font-size:100px;color:red">\(x\)</div>
+  </foreignObject>
+  <foreignObject
+     height="150"
+     width="70"
+     y="080"
+     x="630">
+    <div
+       style="fill:red;font-size:100px;color:red">\(y\)</div>
+  </foreignObject>
+  <foreignObject
+     height="150"
+     width="70"
+     y="530"
+     x="400">
+    <div
+       style="fill:red;font-size:100px;color:red">\(z\)</div>
+  </foreignObject>
+  <circle
+     r="100"
+     cy="600"
+     cx="650"
+     id="path4151-6-7-3"
+     style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+  <path
+     id="path4206-6"
+     d="m 250,600 300,0"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     id="path4206-6-5"
+     d="m 656.02832,257.81208 0,242.81495"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     id="path4206-6-5-3"
+     d="m 150.26019,254.89156 0,242.81495"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     id="path4206-6-5-3-5"
+     d="M 223.18058,217.32651 581.15339,530.85214"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     id="path4206-6-5-3-5-6"
+     d="M 573.92925,216.459 227.25799,536.86677"
+     style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+</svg>

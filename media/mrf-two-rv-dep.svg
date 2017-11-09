@@ -1,0 +1,16 @@
+<svg class="fragment fade-out"
+width="6em" height="2em" viewBox="0 0 1200 400"
+xmlns="http://www.w3.org/2000/svg" version="1.1">
+<circle r="100" cy="200" cx="150" id="path4151"
+        style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+<circle r="100" cy="200" cx="750" id="path4151-6"
+        style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:5px" />
+<path id="path4206" d="m 250,200 400,0"
+      style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+<foreignObject x="120" y="130" width="70" height="150">
+  <div style="fill:red;font-size:100px;color:red">\(x\)</div>
+</foreignObject>
+<foreignObject x="720" y="130" width="70" height="150">
+  <div style="fill:red;font-size:100px;color:red">\(y\)</div>
+</foreignObject>
+</svg>
