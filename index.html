@@ -48,6 +48,9 @@
 			<div class="slides">
 <section>
   <h3>Probablistic graphical models</h3>
+  <p>
+    Vikas Dhiman
+  </p>
 </section>
 <section style="font-size:70%">
   <h5>Why we should still study Probablistic graphical models?</h5>
@@ -455,7 +458,7 @@
         </svg>
       </div>
     </li><li class="fragment">
-      Draw an MRF for three random variables that are all independent.
+      Draw an MRF for four random variables that are all independent.
       <div class="fragment" style="position:absolute;right:0;" >
         <svg class="fragment fade-out"
              xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -546,6 +549,7 @@
 
       Draw an MRF for three random variables \(x,y,z\) such that
       \(x\) and \(y\) are conditionally independent given \(z\).
+
       <div class="fragment" style="position:absolute;right:0;" >
         <svg class="fragment fade-out"
            xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -616,9 +620,9 @@
       </div>
     </li><li class="fragment">
       Draw an MRF for four random variables \(w, x,y,z\) such that
-      \(x\) and \(y\) are conditionally independent given \(z\) and \(w\)
+      \(x\) and \(z\) are conditionally independent given \(y\) and \(w\)
       <br/>
-      and \(z\) and \(w\) are conditionally independent given \(x\) and \(y\)
+      and \(y\) and \(w\) are conditionally independent given \(x\) and \(z\)
 
       <div class="fragment" style="position:absolute;right:0;" >
         <svg class="fragment fade-out"
@@ -870,6 +874,9 @@
   \[ f(X; \theta) = \arg \min_{Y} E(Y, X; \theta) \]
   </p>
 </section>
+<section>
+  The following slides are borrowed from L. Ladicky
+</section>
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-091.svg"></section>
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-092.svg"></section>
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-093.svg"></section>
@@ -901,7 +908,16 @@
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-119.svg"></section>
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-120.svg"></section>
 <section class="singleimg" data-background-image="media/ladicky-graphcuts-121.svg"></section>
-
+<section>
+  For further reading
+  <ul style="font-size:32px">
+    <li>For Gibbs sampling: D. J. MacKay, “Introduction to monte carlo methods,” in Learning in graphical models .    Springer, 1998, pp. 175–204.
+    </li><li>For belief propagation: R. Kschischang, B. J. Frey, and H.-A. Loeliger, “Factor
+graphs and the sum-product algorithm,” Information Theory, IEEE
+Transactions on , vol. 47, no. 2, pp. 498–519, 2001.
+    </li>
+  </ul>
+</section>
 			</div>
 		</div>
 
